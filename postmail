@@ -1,0 +1,38 @@
+#!/usr/bin/ruby
+
+require 'net/smtp'
+
+$POSTMARK_HOST = 'smtp.postmarkapp.com'
+$POSTMARK_PORT = 25
+$DOMAIN ||= ARGV[0]
+$API_KEY ||= ARGV[1]
+$FROM ||= ARGV[2]
+$TO ||= ARGV[3]
+$SUBJECT ||= ARGV[4]
+
+if ARGV.size < 5
+  STDERR.puts "Usage: #{$0} domain-name api-key from-address to-address \"a subject\""
+  exit 1
+end
+
+if ($INPUT = STDIN.read).strip == ""
+  STDERR.puts "STDIN is missing. Please use 'echo email body | postmail.rb' syntax to send emails."
+  exit 1
+end
+
+Net::SMTP.start($POSTMARK_HOST,$POSTMARK_PORT,$DOMAIN,$API_KEY,$API_KEY, :plain) do |smtp|
+
+  smtp.open_message_stream($FROM, $TO) do |data|
+
+      data.puts 'From: '    + $FROM
+      data.puts 'To: '      + $TO
+      data.puts 'Subject: ' + $SUBJECT
+      data.puts 
+      data.puts $INPUT.to_s
+
+  end
+
+  smtp.finish
+
+end
+
