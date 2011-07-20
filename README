@@ -1,0 +1,17 @@
+= ABOUT
+
+Ruby script to send emails through Postmark.
+
+This is a simple Ruby script that does not depend on any gems or additional libraries. 
+Easy to use and useful when you need to send emails from some server that doesn't have SMTP configured.
+
+= USAGE
+
+The usage is similar to sendmail's console command:
+
+cat /var/log/server.log | postmail wildbit.com 09304fb12ca7bcb8e01a09a7a5bdcd7fa8d8f598 admin@wildbit.com sdmitry@gmail.com "Your server is down!"
+
+= INSTALLATION
+
+* Copy to /usr/bin or /usr/local/bin and set executable flag. 
+* Don't forget to enable SMTP API in your Postmark account.
